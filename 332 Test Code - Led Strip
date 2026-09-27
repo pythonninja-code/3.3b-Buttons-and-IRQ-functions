@@ -1,0 +1,18 @@
+#this program makes the LED strip light up for one second.
+#you may need to change the number of pixels on line 9 (numpix)
+#you may need to change the pin number 28 on line 9  (numpix, 0, 28, "GRB") if you have wired the signal pin differently to the diagram in guide 33b
+
+from machine import Pin
+import time
+from neopixel import Neopixel
+
+numpix = 50
+strip = Neopixel(numpix, 0, 28, "GRB")
+red = (255, 0, 0)
+blank = (0,0,0)
+
+strip.fill(red)
+strip.show()
+time.sleep(2)
+strip.fill(blank)
+strip.show()
