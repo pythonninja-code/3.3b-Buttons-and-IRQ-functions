@@ -1,0 +1,42 @@
+#this code snippet demonstrates how a while loop can be interrupted
+#the IRQ interrup command on line 32 breaks the loop and calls a function
+
+from machine import Pin
+import time
+from neopixel import Neopixel
+
+#button variable
+button = Pin(15, Pin.IN, Pin.PULL_UP)
+
+#led strip variables
+numpix = 10
+strip = Neopixel(numpix, 0, 28, "GRB")
+strip.brightness(50) #can be between 0 and 255
+
+
+#colour variables
+red = (25, 0, 0)
+blue = (51, 102, 255)
+green = (0, 255, 0)
+blank = (0, 0, 0)
+
+
+#function called when button is pressed
+def pir_interrupt(pin):
+    if pin.value() == 1:
+        strip.fill(green)
+        strip.show()
+        time.sleep(1)
+        
+#code that listens out for the button press
+button.irq(trigger=(Pin.IRQ_RISING | Pin.IRQ_FALLING), handler=pir_interrupt)
+
+#endless while loop
+while True:
+    strip.fill(red)
+    strip.show()
+    time.sleep(1)
+    strip.fill(blue)
+    strip.show()
+    time.sleep(1)
+    
