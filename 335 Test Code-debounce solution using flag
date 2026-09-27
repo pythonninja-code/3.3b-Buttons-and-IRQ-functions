@@ -1,0 +1,30 @@
+# Test code solving the debouncing issue (using the flag method)
+# Debouncing is when you get multiple readings from button presses
+from machine import Pin
+import time
+# button variable
+button = Pin(15, Pin.IN, Pin.PULL_UP)
+# On-Board LED
+led_pin = Pin(25, Pin.OUT)
+
+# flag variable
+button_pressed = False
+
+# commands
+def pir_interrupt(pin):
+    global button_pressed
+    button_pressed = True
+
+# This command listens for the button press
+button.irq(trigger=Pin.IRQ_FALLING, handler=pir_interrupt)
+
+# This is an endless while loop
+while True:
+    if button_pressed:
+        button_pressed = False      # reset flag
+        print("button pressed")
+        # simple debounce delay
+        time.sleep(0.2)
+
+    print("looping")
+    time.sleep(1)
